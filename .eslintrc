@@ -1,0 +1,59 @@
+{
+    "root": true,
+    "extends": [
+        "@antfu"
+    ],
+    "rules": {
+        "curly": "off",
+        "no-tabs": [
+            "error"
+        ],
+        // "linebreak-style": [
+        //     "error",
+        //     "unix"
+        // ],
+        "eol-last": [
+            "warn",
+            "always"
+        ],
+        "@typescript-eslint/semi": [
+            "error",
+            "always"
+        ],
+        "@typescript-eslint/indent": [
+            "error",
+            4
+        ],
+        "@typescript-eslint/quotes": [
+            "error",
+            "double",
+            {
+                "avoidEscape": true,
+                "allowTemplateLiterals": true
+            }
+        ],
+        "jsonc/indent": [
+            "error",
+            4
+        ],
+        "vue/html-indent": [
+            "error",
+            4
+        ],
+        "vue/script-indent": [
+            "error",
+            4,
+            {
+                "baseIndent": 1
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["*.vue"],
+            "rules": {
+                "@typescript-eslint/indent": "off"
+            }
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+@import './markdown.css';
+
+html,
+body,
+#app {
+  height: 100%;
+  background: ;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  background-color: rgb(186, 73, 73);
+  min-height: 100vh;
+  width: 100%;
+  color: white;
+  transition: background-color 0.5s ease-in-out 0s;
+  padding-bottom: 12px;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top)
+}
+
+html.dark {
+  background: #121212;
+  color-scheme: dark;
+}
+
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: rgb(13,148,136);
+  opacity: 0.75;
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+.actives {
+  transition: all 0.3;
+  transform: translateY(4px)
+}
+
+.active {
+  transition: all 0.3;
+  background: #00000026;
+}
