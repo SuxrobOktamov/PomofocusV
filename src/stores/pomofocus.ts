@@ -9,13 +9,15 @@ export interface btn {
 
 export const usePomofocusStore = defineStore("pomofocus", () => {
     const isShow = ref<boolean>(true);
-    function toggleHandler(event: any): void {
-        if (!event.target.classList.contains("actives")) {
+    const isStart = ref<boolean>(false);
+    const isHidden = ref<boolean>(false);
+    function toggleHandler(event: any, item?: show): void {
+        if (item === "show") {
             event.target.classList.add("actives");
         }
-        setTimeout(() => {
+        else if (item === "hide") {
             event.target.classList.remove("actives");
-        }, 100);
+        }
     }
     function showHandler(item: show): void {
         if (item === "hide") {
@@ -38,7 +40,17 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
             }
             return item;
         });
-        toggleHandler(e);
+    }
+    function startHandler(): void {
+        isStart.value = !isStart.value;
+    }
+    function hiddenHandler(item?: string): void {
+        if (item === "app") {
+            isHidden.value = false;
+        }
+        else {
+            isHidden.value = !isHidden.value;
+        }
     }
     return {
         toggleHandler,
@@ -46,6 +58,10 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         showHandler,
         clickHandle,
         buttons,
+        isStart,
+        startHandler,
+        isHidden,
+        hiddenHandler,
     };
 });
 

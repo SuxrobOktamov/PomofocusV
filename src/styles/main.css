@@ -42,10 +42,46 @@ html.dark {
 
 .actives {
   transition: all 0.3;
-  transform: translateY(4px)
+  transform: translateY(2px)
 }
 
 .active {
   transition: all 0.3;
   background: #00000026;
 }
+
+.starts {
+  cursor: pointer;
+  border: none;
+  margin: 20px 0px 0px;
+  padding: 0px 12px;
+  border-radius: 4px;
+  box-shadow: #ebebeb 0px 6px 0px;
+  font-family: ArialRounded;
+  font-size: 22px;
+  height: 55px;
+  color: rgb(186, 73, 73);
+  font-weight: bold;
+  width: 200px;
+  background-color: white;
+  transition: color 0.5s ease-in-out 0s;
+}
+
+.stop {
+  cursor: pointer;
+  border: none;
+  margin: 20px 0px 0px;
+  padding: 0px 12px;
+  border-radius: 4px;
+  font-family: ArialRounded;
+  font-size: 22px;
+  height: 55px;
+  color: rgb(186, 73, 73);
+  font-weight: bold;
+  width: 200px;
+  background-color: white;
+  transform: translateY(6px);
+  box-shadow: none;
+  transition: color 0.5s ease-in-out 0s;
+}
+
