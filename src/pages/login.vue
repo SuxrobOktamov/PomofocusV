@@ -4,7 +4,7 @@
 
 <template>
     <main class="w-full">
-        <div class="app">
+        <div class="app" :style="{ 'background-color': PomofocusStore.bgColor }">
             <TheLogin class="text-center" />
         </div>
         <TheMain v-if="PomofocusStore.isShow" />

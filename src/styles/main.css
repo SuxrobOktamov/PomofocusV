@@ -10,7 +10,6 @@ body,
 }
 
 .app {
-  background-color: rgb(186, 73, 73);
   min-height: 100vh;
   width: 100%;
   color: white;
@@ -60,7 +59,6 @@ html.dark {
   font-family: ArialRounded;
   font-size: 22px;
   height: 55px;
-  color: rgb(186, 73, 73);
   font-weight: bold;
   width: 200px;
   background-color: white;
@@ -76,7 +74,6 @@ html.dark {
   font-family: ArialRounded;
   font-size: 22px;
   height: 55px;
-  color: rgb(186, 73, 73);
   font-weight: bold;
   width: 200px;
   background-color: white;
