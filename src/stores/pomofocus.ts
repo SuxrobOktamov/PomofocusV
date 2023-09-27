@@ -20,6 +20,15 @@ export interface song {
     path: string
 }
 
+export interface task {
+    id: number
+    work: string
+    title?: string
+    count: number
+    active: boolean
+    isEdit: boolean
+}
+
 export const usePomofocusStore = defineStore("pomofocus", () => {
     const buttons = ref<btn[]>([
         { name: "Pomodoro", id: 1, active: true, time: "25 : 00", color: "#ba4949", spendTime: "Time to focus!" },
@@ -32,9 +41,15 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         { path: "/src/audio/072047_clock-ticking-fast-43236.mp3" },
         { path: "/src/audio/time-passing-sound-effect-fast-clock-108403.mp3" },
     ]);
+    const tasks = ref<task[]>([
+        { id: 1, work: "work one", count: 1, active: true, isEdit: true, title: "" },
+        { id: 2, work: "work two", count: 5, active: false, isEdit: true, title: "" },
+        { id: 3, work: "work three", count: 2, active: false, isEdit: true, title: "" },
+    ]);
     const isShow = ref<boolean>(true);
     const isStart = ref<boolean>(false);
     const isHidden = ref<boolean>(false);
+    const isEdit = ref<boolean>(false);
     const time = ref<string>(buttons.value[0].time);
     const bgColor = ref<string>(buttons.value[0].color);
     const spendTime = ref<string>(buttons.value[0].spendTime);
@@ -43,6 +58,10 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     const isAddTask = ref<boolean>(true);
     const Audio = document.createElement("audio");
     const Sound = document.createElement("audio");
+    const isNote = ref<boolean>(true);
+    const repeat = ref<number>(1);
+    const youWork = ref<string>("");
+    const notes = ref<string>("");
     function toggleHandler(event: any, item?: show): void {
         if (item === "show") {
             event.target.classList.add("actives");
@@ -148,6 +167,12 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         spendTime,
         playHandle,
         isAddTask,
+        tasks,
+        isNote,
+        repeat,
+        youWork,
+        notes,
+        isEdit,
     };
 });
 
