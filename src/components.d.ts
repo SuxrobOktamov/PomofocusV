@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     TheEdit: typeof import('./components/Timer/TheEdit.vue')['default']
     TheEditAdd: typeof import('./components/Timer/TheEditAdd.vue')['default']
     TheEditV: typeof import('./components/Timer/TheEdit-v.vue')['default']
+    TheFinish: typeof import('./components/Timer/TheFinish.vue')['default']
     TheFooter: typeof import('./components/TheFooter.vue')['default']
     TheHeader: typeof import('./components/TheHeader.vue')['default']
     TheLogin: typeof import('./components/TheLogin.vue')['default']

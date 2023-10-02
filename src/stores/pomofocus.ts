@@ -1,39 +1,11 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
-
-export type show = "show" | "hide";
-export interface btn {
-    name: string
-    id: number
-    active: boolean
-    time: string
-    color: string
-    spendTime: string
-}
-
-export interface breakTime {
-    time: string
-    short: string
-    long: string
-}
-
-export interface song {
-    path: string
-}
-
-export interface task {
-    id: number
-    work: string
-    title?: string
-    count: number
-    active: boolean
-    isEdit: boolean
-}
+import type { btn, show, song, task } from "@/types/type";
 
 export const usePomofocusStore = defineStore("pomofocus", () => {
     const buttons = ref<btn[]>([
-        { name: "Pomodoro", id: 1, active: true, time: "25 : 00", color: "#ba4949", spendTime: "Time to focus!" },
-        { name: "Short Break", id: 2, active: false, time: "5 : 00", color: "#a4893c", spendTime: "Time for a break!" },
-        { name: "Long Break", id: 3, active: false, time: "15 : 00", color: "#545764", spendTime: "Time for a break!" },
+        { name: "Pomodoro", id: 1, active: true, time: 25, color: "#ba4949", spendTime: "Time to focus!" },
+        { name: "Short Break", id: 2, active: false, time: 5, color: "#a4893c", spendTime: "Time for a break!" },
+        { name: "Long Break", id: 3, active: false, time: 15, color: "#545764", spendTime: "Time for a break!" },
     ]);
     const songs = ref<song[]>([
         { path: "" },
@@ -41,16 +13,12 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         { path: "/src/audio/072047_clock-ticking-fast-43236.mp3" },
         { path: "/src/audio/time-passing-sound-effect-fast-clock-108403.mp3" },
     ]);
-    const tasks = ref<task[]>([
-        { id: 1, work: "work one", count: 1, active: true, isEdit: true, title: "" },
-        { id: 2, work: "work two", count: 5, active: false, isEdit: true, title: "" },
-        { id: 3, work: "work three", count: 2, active: false, isEdit: true, title: "" },
-    ]);
+    const tasks = ref<task[]>([]);
     const isShow = ref<boolean>(true);
     const isStart = ref<boolean>(false);
     const isHidden = ref<boolean>(false);
     const isEdit = ref<boolean>(false);
-    const time = ref<string>(buttons.value[0].time);
+    const time = ref<number>(buttons.value[0].time);
     const bgColor = ref<string>(buttons.value[0].color);
     const spendTime = ref<string>(buttons.value[0].spendTime);
     const song_count = ref<number>(3);
@@ -62,6 +30,7 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     const repeat = ref<number>(1);
     const youWork = ref<string>("");
     const notes = ref<string>("");
+    const timeHour = ref<number>(0);
     function toggleHandler(event: any, item?: show): void {
         if (item === "show") {
             event.target.classList.add("actives");
@@ -152,6 +121,77 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
             Audio.play();
         }
     }
+    const filterTasks = computed<task[]>(() => {
+        return [...tasks.value].sort((a: task, b: task): number => {
+            return a.active > b.active ? 1 : -1;
+        });
+    });
+    const taskTitle = computed<string>(() => {
+        if (tasks.value.length === 1) {
+            return tasks.value[0].work;
+        }
+        else {
+            const filter = ref<task[]>(tasks.value.filter((item: task) => item.completed));
+            if (!filter.value.length) {
+                tasks.value[0].completed = true;
+                return tasks.value[0].work;
+            }
+            else {
+                return filter.value[0].work;
+            }
+        }
+    });
+    const pomos = computed<number>(() => {
+        let count = 0 as number;
+        tasks.value.map<task>((item) => {
+            if (!item.active) {
+                count += item.count;
+            }
+            return item;
+        });
+        return count;
+    });
+    const finishPomos = computed<string>(() => {
+        const today = new Date() as Date;
+        const hours = today.getHours() as number;
+        const minutes = today.getMinutes() as number;
+        const pomo = Math.floor((minutes + ((buttons.value[0].time * pomos.value))) / 60) as number;
+        let date = "ewe" as string;
+        if (pomo > 0 && !((hours + pomo) > 24)) {
+            if ((minutes + (pomos.value * buttons.value[0].time - (pomo * 60)) < 10 && (hours + pomo) < 10)) {
+                date = `0${hours + pomo} : 0${minutes + ((pomos.value * buttons.value[0].time) - (pomo * 60))}`;
+            }
+            else if ((minutes + (pomos.value * buttons.value[0].time - (pomo * 60)) > 10 && (hours + pomo) < 10)) {
+                date = `0${hours + pomo} : ${minutes + ((pomos.value * buttons.value[0].time) - (pomo * 60))}`;
+            }
+            else if ((minutes + (pomos.value * buttons.value[0].time - (pomo * 60)) < 10 && (hours + pomo) > 10)) {
+                date = `${hours + pomo} : 0${minutes + ((pomos.value * buttons.value[0].time) - (pomo * 60))}`;
+            }
+            else {
+                date = `${hours + pomo} : ${minutes + ((pomos.value * buttons.value[0].time) - (pomo * 60))}`;
+            }
+        }
+        else if (((hours + pomo) > 24)) {
+            date = `00 : 00`;
+        }
+        else {
+            if ((minutes + (buttons.value[0].time * pomos.value)) < 10 && (hours) < 10) {
+                date = `0${hours} : 0${minutes + (buttons.value[0].time * pomos.value)}`;
+            }
+            else
+            if ((minutes + (buttons.value[0].time * pomos.value)) > 10 && (hours) < 10) {
+                date = `0${hours} : ${minutes + (buttons.value[0].time * pomos.value)}`;
+            }
+            else if ((minutes + (buttons.value[0].time * pomos.value)) < 10 && (hours) > 10) {
+                date = `${hours} : 0${minutes + (buttons.value[0].time * pomos.value)}`;
+            }
+            else {
+                date = `${hours} : ${minutes + (buttons.value[0].time * pomos.value)}`;
+            }
+        }
+        timeHour.value = (buttons.value[0].time * pomos.value) / 60;
+        return date;
+    });
     return {
         toggleHandler,
         isShow,
@@ -173,6 +213,11 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         youWork,
         notes,
         isEdit,
+        taskTitle,
+        filterTasks,
+        pomos,
+        finishPomos,
+        timeHour,
     };
 });
 

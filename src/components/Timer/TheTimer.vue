@@ -11,8 +11,9 @@
             #1
         </div>
         <div class="text-[18px] font-bold text-white">
-            {{ PomofocusStore.spendTime }}
+            {{ PomofocusStore.tasks.length === 0 ? PomofocusStore.spendTime : PomofocusStore.taskTitle }}
         </div>
         <AddTask />
+        <TheFinish v-if="PomofocusStore.tasks.length && PomofocusStore.pomos" />
     </div>
 </template>
