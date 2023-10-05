@@ -8,6 +8,8 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddTask: typeof import('./components/Timer/AddTask.vue')['default']
+    EndPomos: typeof import('./components/Timer/EndPomos.vue')['default']
+    Modal: typeof import('./components/Timer/Modal.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -20,7 +22,11 @@ declare module '@vue/runtime-core' {
     TheHeader: typeof import('./components/TheHeader.vue')['default']
     TheLogin: typeof import('./components/TheLogin.vue')['default']
     TheMain: typeof import('./components/TheMain.vue')['default']
+    TheSettings: typeof import('./components/Settings/TheSettings.vue')['default']
+    TheSound: typeof import('./components/Settings/TheSound.vue')['default']
+    TheTask: typeof import('./components/Settings/TheTask.vue')['default']
     TheTasks: typeof import('./components/Timer/TheTasks.vue')['default']
     TheTimer: typeof import('./components/Timer/TheTimer.vue')['default']
+    TheTimerSetting: typeof import('./components/Settings/TheTimerSetting.vue')['default']
   }
 }

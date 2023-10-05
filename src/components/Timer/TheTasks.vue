@@ -29,21 +29,10 @@
             return item;
         });
     }
-    function completedHandler(id: number, e: any) {
-        if (!e.target.classList.contains("checked")) {
-            PomofocusStore.tasks.map<task>((item) => {
-                item.completed = false;
-                if (item.id === id) {
-                    item.completed = true;
-                }
-                return item;
-            });
-        }
-    }
 </script>
 
 <template>
-    <div v-for="tasks in PomofocusStore.filterTasks" :key="tasks.id" class="flex flex-col gap-2 cursor-pointer m-auto mb-3 max-w-[480px] text-[#555] w-full" @click="completedHandler(tasks.id, $event)">
+    <div v-for="tasks in PomofocusStore.filterTasks" :key="tasks.id" class="flex flex-col gap-2 cursor-pointer m-auto mb-3 max-w-[480px] text-[#555] w-full" @click="PomofocusStore.completedHandler(tasks.id, $event)">
         <div v-if="tasks.isEdit" class="relative overflow-hidden p-4 flex flex-wrap items-center justify-between bg-[#fff] rounded-[6px] shadow-md">
             <div v-if="tasks.completed || PomofocusStore.tasks.length === 1" class="absolute left-0 top-0 h-full w-[6px] bg-[#222]" />
             <div class="flex items-center gap-2">
@@ -51,7 +40,7 @@
                 <span class="font-bold max-w-[300px] text-ellipsis block whitespace-nowrap  overflow-hidden" :style="{ textDecoration: `${tasks.active ? 'line-through' : 'none'}`, opacity: `${tasks.active ? '0.4' : '1'}` }">{{ tasks.work }}</span>
             </div>
             <div class="flex items-center gap-3">
-                <span class="text-[18px] text-[#bbb] font-bold">0/ <small>{{ tasks.count }}</small></span>
+                <span class="text-[18px] text-[#bbb] font-bold">{{ tasks.finishedCount }}/ <small>{{ tasks.count }}</small></span>
                 <button class="px-[1px] border py-[1px] bg-[#fff] rounded shadow" @click="EditHandler(tasks.id)" @pointerdown="PomofocusStore.toggleHandler($event, 'show')" @pointerup="PomofocusStore.toggleHandler($event, 'hide')">
                     <div i-carbon-overflow-menu-vertical class="text-gray-400 font-extrabold text-[24px] pointer-events-none" />
                 </button>

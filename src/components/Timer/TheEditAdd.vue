@@ -44,10 +44,13 @@
         if (PomofocusStore.youWork.length !== 0 && PomofocusStore.repeat && id) {
             PomofocusStore.tasks.map<task>((item: task) => {
                 if (item.id === id) {
-                    item.count = +PomofocusStore.repeat;
+                    item.count = PomofocusStore.repeat;
                     item.work = PomofocusStore.youWork;
                     item.title = PomofocusStore.notes;
                     item.isEdit = true;
+                    if (item.count > item.finishedCount) {
+                        item.active = false;
+                    }
                     if (item.title.length) {
                         PomofocusStore.isNote = false;
                     }
@@ -59,7 +62,7 @@
             });
         }
         if (PomofocusStore.youWork.length !== 0 && PomofocusStore.repeat && !id) {
-            const obj = ref<task>({ id: Date.now(), work: PomofocusStore.youWork, count: PomofocusStore.repeat, title: PomofocusStore.notes, active: false, isEdit: true, completed: false });
+            const obj = ref<task>({ id: Date.now(), work: PomofocusStore.youWork, count: PomofocusStore.repeat, finishedCount: 0, title: PomofocusStore.notes, active: false, isEdit: true, completed: false });
             PomofocusStore.tasks.push(obj.value);
             PomofocusStore.isNote = true;
             PomofocusStore.youWork = "";
@@ -74,7 +77,7 @@
         <input v-model="PomofocusStore.youWork" class="pl-5 pr-5 w-full rounded text-[22px] border-none text-[#555] box-border font-bold outline-none" type="text" placeholder="What are you working on?">
         <div class="pl-5 pr-5 text-[#555] w-full text-start mt-5 flex flex-wrap items-end gap-1">
             <span class="w-full block pb-2 font-bold">Est Pomodoros</span>
-            <input :value="+PomofocusStore.repeat" type="number" min="0" class="mr-3 rounded bg-[#efefef] text-[16px] p-[10px] border-none text-[#555] box-border font-bold w-[75px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" @input="updateValue($event)">
+            <input :value="PomofocusStore.repeat" type="number" min="0" class="mr-3 rounded bg-[#efefef] text-[16px] p-[10px] border-none text-[#555] box-border font-bold w-[75px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" @input="updateValue($event)">
             <button class="shadow-md text-center rounded cursor-pointer text-[14px] px-3 py-2 inline-block w-[40px] bg-white text-[#555] border border-[#dfdfdf]" @click="clickHandler('increase')" @pointerdown="PomofocusStore.toggleHandler($event, 'show')" @pointerup="PomofocusStore.toggleHandler($event, 'hide')">
                 <div class="i-carbon-caret-down text-black opacity-60 pointer-events-none" />
             </button>
@@ -87,7 +90,7 @@
                 +Add Note
             </button>
             <textarea v-else v-model="PomofocusStore.notes" class="rounded p-2 block w-full outline-none bg-[#efefef] text-[#555]" placeholder="Some notes" />
-            <button class="underline flex gap-1 items-center text-center rounded opacity-90 text-[14px] font-bold text-[#0006]" @pointerdown="PomofocusStore.toggleHandler($event, 'show')" @pointerup="PomofocusStore.toggleHandler($event, 'hide')">
+            <button class="underline flex gap-1 items-center text-center rounded opacity-90 text-[14px] font-bold text-[#0006]" @click="PomofocusStore.open = true" @pointerdown="PomofocusStore.toggleHandler($event, 'show')" @pointerup="PomofocusStore.toggleHandler($event, 'hide')">
                 +Add Project
                 <div class="i-carbon-locked text-3" />
             </button>

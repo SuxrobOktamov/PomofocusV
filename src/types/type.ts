@@ -22,9 +22,18 @@ export interface task {
     work: string
     title?: string
     count: number
+    finishedCount: number
     active: boolean
     isEdit: boolean
     completed: boolean
 }
 
 export type show = "show" | "hide";
+
+export interface plan {
+    id: number
+    type: string
+    price: number
+    name: string
+    active: boolean
+}

@@ -10,7 +10,7 @@
             </button>
         </div>
         <div class="tracking-tighter text-[100px] font-bold mt-5 text-center lt-sm:mt-4 lt-sm:text-[70px]">
-            {{ PomofocusStore.time }} : 00
+            {{ PomofocusStore.time > 10 ? PomofocusStore.time : `0${PomofocusStore.time}` }} : {{ PomofocusStore.theSecond }}
         </div>
         <div class="relative w-full text-center flex items-center justify-center">
             <button :disabled="PomofocusStore.pomos === 0 && PomofocusStore.buttons[0].active" :style="{ color: PomofocusStore.bgColor, cursor: `${PomofocusStore.pomos === 0 && PomofocusStore.buttons[0].active ? 'not-allowed' : 'pointer'}`, opacity: `${PomofocusStore.pomos === 0 && PomofocusStore.buttons[0].active ? 0.6 : 1}` }" :class="PomofocusStore.isStart ? 'stop' : 'starts'" class="uppercase lt-sm:w-[170px] lt-sm:h-[45px] lt-sm:text-[20px]" @click="PomofocusStore.playHandle()">

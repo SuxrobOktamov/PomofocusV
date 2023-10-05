@@ -29,10 +29,6 @@
         confirm("Please login to use the template feature.");
         PomofocusStore.hiddenHandler();
     }
-    function clearAllTasks(): void {
-        PomofocusStore.tasks = [] as task[];
-        PomofocusStore.hiddenHandler();
-    }
 </script>
 
 <template>
@@ -60,12 +56,12 @@
                         <div i-carbon-add class="font-black" />
                         <span>Add from templates</span>
                     </button>
-                    <button class="gap-1 flex items-center text-[#4f2b2d] px-[16px] py-[10px] text-[14px]">
+                    <button class="gap-1 flex items-center text-[#4f2b2d] px-[16px] py-[10px] text-[14px]" @click="PomofocusStore.open = true, PomofocusStore.isHidden = false">
                         <div i-carbon-ibm-data-replication class="font-black" />
                         <span>Import from Todoist</span>
                         <div i-carbon-locked class="font-black" />
                     </button>
-                    <button class="gap-1 flex items-center text-[#4f2b2d] px-[16px] py-[10px] text-[14px]" @click="clearAllTasks()">
+                    <button class="gap-1 flex items-center text-[#4f2b2d] px-[16px] py-[10px] text-[14px]" @click="PomofocusStore.clearAllTasks()">
                         <div i-carbon-trash-can class="font-black" />
                         <span>Clear all tasks</span>
                     </button>
