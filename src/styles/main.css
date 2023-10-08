@@ -44,11 +44,6 @@ html.dark {
   transform: translateY(2px)
 }
 
-.active {
-  transition: all 0.3;
-  background: #00000026;
-}
-
 .starts {
   cursor: pointer;
   border: none;

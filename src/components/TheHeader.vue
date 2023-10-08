@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import type { show } from "@/types/type";
+    import type { show } from "@/types";
 
     const PomofocusStore = usePomofocusStore();
     function showHandler(item: show): void {
@@ -28,7 +28,7 @@
                     <span class="lt-sm:hidden capitalize pointer-events-none">Report</span>
                 </button>
             </router-link>
-            <button class="cursor-pointer flex items-center gap-1 font-sans rounded opacity-90 bg-gray-1/20 py-2 px-3 text-[13px] min-w-[70px] lt-md:min-w-auto" @pointerdown="PomofocusStore.toggleHandler($event, 'show')" @pointerup="PomofocusStore.toggleHandler($event, 'hide')">
+            <button class="cursor-pointer flex items-center gap-1 font-sans rounded opacity-90 bg-gray-1/20 py-2 px-3 text-[13px] min-w-[70px] lt-md:min-w-auto" @pointerdown="PomofocusStore.toggleHandler($event, 'show')" @pointerup="PomofocusStore.toggleHandler($event, 'hide')" @click="PomofocusStore.isSetting = true">
                 <div i-carbon-settings class="pointer-events-none bg-white lt-sm:text-xl" />
                 <span class="lt-sm:hidden capitalize pointer-events-none">Setting</span>
             </button>

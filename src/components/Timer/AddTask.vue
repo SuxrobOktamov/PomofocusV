@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-    import type { task } from "../../types/type";
+    import type { task } from "../../types";
 
     const PomofocusStore = usePomofocusStore();
     function addTaskHandler(type: "add" | "hide"): void {

@@ -1,17 +1,98 @@
 import { acceptHMRUpdate, defineStore } from "pinia";
-import type { btn, show, song, task } from "@/types/type";
+import type { btn, color, show, song, task } from "@/types";
 
 export const usePomofocusStore = defineStore("pomofocus", () => {
-    const buttons = ref<btn[]>([
-        { name: "Pomodoro", id: 1, active: true, time: 1, color: "#ba4949", spendTime: "Time to focus!" },
-        { name: "Short Break", id: 2, active: false, time: 5, color: "#a4893c", spendTime: "Time for a break!" },
-        { name: "Long Break", id: 3, active: false, time: 1, color: "#545764", spendTime: "Time for a break!" },
+    const ColorArrs = ref<color[]>([
+        {
+            id: 1,
+            obj: [
+                { id: 1, active: true, color: "#ba4949" },
+                { id: 2, active: false, color: "#38858a" },
+                { id: 3, active: false, color: "#397097" },
+                { id: 4, active: false, color: "#a4893c" },
+                { id: 5, active: false, color: "#7d53a2" },
+                { id: 6, active: false, color: "#af4e91" },
+                { id: 7, active: false, color: "#518a58" },
+                { id: 8, active: false, color: "#545764" },
+            ],
+        },
+        {
+            id: 2,
+            obj: [
+                { id: 1, active: false, color: "#ba4949" },
+                { id: 2, active: true, color: "#38858a" },
+                { id: 3, active: false, color: "#397097" },
+                { id: 4, active: false, color: "#a4893c" },
+                { id: 5, active: false, color: "#7d53a2" },
+                { id: 6, active: false, color: "#af4e91" },
+                { id: 7, active: false, color: "#518a58" },
+                { id: 8, active: false, color: "#545764" },
+            ],
+        },
+        {
+            id: 3,
+            obj: [
+                { id: 1, active: false, color: "#ba4949" },
+                { id: 2, active: false, color: "#38858a" },
+                { id: 3, active: true, color: "#397097" },
+                { id: 4, active: false, color: "#a4893c" },
+                { id: 5, active: false, color: "#7d53a2" },
+                { id: 6, active: false, color: "#af4e91" },
+                { id: 7, active: false, color: "#518a58" },
+                { id: 8, active: false, color: "#545764" },
+            ],
+        },
     ]);
-    const songs = ref<song[]>([
-        { path: "" },
-        { path: "/src/audio/timer/helicopter-beat-47617.mp3" },
-        { path: "/src/audio/timer/072047_clock-ticking-fast-43236.mp3" },
-        { path: "/src/audio/timer/time-passing-sound-effect-fast-clock-108403.mp3" },
+    const colorOne = computed<string>(() => {
+        let color = "" as string;
+        ColorArrs.value[0].obj.map((item) => {
+            if (item.active) {
+                color = item.color;
+            }
+            return item;
+        });
+        return color;
+    });
+    const colorTwo = computed<string>(() => {
+        let color = "" as string;
+        ColorArrs.value[1].obj.map((item) => {
+            if (item.active) {
+                color = item.color;
+            }
+            return item;
+        });
+        return color;
+    });
+    const colorThree = computed<string>(() => {
+        let color = "" as string;
+        ColorArrs.value[2].obj.map((item) => {
+            if (item.active) {
+                color = item.color;
+            }
+            return item;
+        });
+        return color;
+    });
+    const buttons = computed<btn[]>(() => {
+        return [
+            { name: "Pomodoro", id: 1, active: true, time: 1, color: colorOne.value, spendTime: "Time to focus!" },
+            { name: "Short Break", id: 2, active: false, time: 5, color: colorTwo.value, spendTime: "Time for a break!" },
+            { name: "Long Break", id: 3, active: false, time: 1, color: colorThree.value, spendTime: "Time for a break!" },
+        ];
+    });
+    const tickingSongArr = ref<song[]>([
+        { path: "", id: 0, name: "None" },
+        { path: "/src/audio/tickingSong/Ticking_fast.mp3", id: 1, name: "Ticking Fast" },
+        { path: "/src/audio/tickingSong/ticking_slow.mp3", id: 2, name: "Ticking Slow" },
+        { path: "/src/audio/tickingSong/white_noise.mp3", id: 3, name: "White Noise" },
+        { path: "/src/audio/tickingSong/brown_noise.mp3", id: 4, name: "Brown Noise" },
+    ]);
+    const alarmSongArr = ref<song[]>([
+        { path: "/src/audio/alarmSong/bell.mp3", id: 0, name: "Bell" },
+        { path: "/src/audio/alarmSong/bird.mp3", id: 1, name: "Bird" },
+        { path: "/src/audio/alarmSong/digital.mp3", id: 2, name: "Digital" },
+        { path: "/src/audio/alarmSong/kitchen.mp3", id: 3, name: "Kitchen" },
+        { path: "/src/audio/alarmSong/wood.mp3", id: 4, name: "Wood" },
     ]);
     const tasks = ref<task[]>([]);
     const isShow = ref<boolean>(true);
@@ -19,7 +100,7 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     const isHidden = ref<boolean>(false);
     const isEdit = ref<boolean>(false);
     const time = ref<number>(buttons.value[0].time);
-    const bgColor = ref<string>(buttons.value[0].color);
+    const bgColor = ref<string>(colorOne.value);
     const spendTime = ref<string>(buttons.value[0].spendTime);
     const song_countOne = ref<number>(3);
     const song_countTwo = ref<number>(2);
@@ -42,6 +123,16 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     const showAllTasks = ref<boolean>(false);
     const borderW = ref<number>(0);
     const open = ref<boolean>(false);
+    const isAlarm = ref<boolean>(false);
+    const isTodoist = ref<boolean>(false);
+    const isWebhook = ref<boolean>(false);
+    const isColor = ref<boolean>(false);
+    const isSetting = ref<boolean>(false);
+    const countColor = ref<number>(0);
+    const isStartBreaks = ref<boolean>(false);
+    const isStartPomodoros = ref<boolean>(false);
+    const alarmSound = ref<number>(100);
+    const tickingSound = ref<number>(100);
     function toggleHandler(event: any, item?: show): void {
         if (item === "show") {
             event.target.classList.add("actives");
@@ -95,7 +186,7 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         if (!buttons.value[0].active) {
             pomoId.value = 1;
             time.value = buttons.value[0].time;
-            bgColor.value = buttons.value[0].color;
+            bgColor.value = colorOne.value;
             spendTime.value = buttons.value[0].spendTime;
             buttons.value[0].active = true;
             buttons.value[1].active = false;
@@ -104,7 +195,7 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         else if (!buttons.value[1].active) {
             pomoId.value = 0;
             time.value = buttons.value[1].time;
-            bgColor.value = buttons.value[1].color;
+            bgColor.value = colorTwo.value;
             spendTime.value = buttons.value[1].spendTime;
             buttons.value[1].active = true;
             buttons.value[0].active = false;
@@ -157,9 +248,9 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     function loadSong(): void {
         Sound.src = "/src/audio/start-13691.mp3";
         Sound.load();
-        Audio.src = songs.value[song_countOne.value].path as string;
+        Audio.src = tickingSongArr.value[song_countOne.value].path as string;
         Audio.load();
-        taskEndSound.src = songs.value[song_countTwo.value].path as string;
+        taskEndSound.src = alarmSongArr.value[song_countTwo.value].path as string;
         taskEndSound.load();
     }
     function playSong(): void {
@@ -175,34 +266,28 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
             }
         }
     }
-    function finishedTasks(): void {
-        if (time.value === 0 && second.value === 0) {
-            if (buttons.value[0].active) {
-                finishedCount.value++;
-                tasks.value.map<task>((item) => {
-                    if (item.completed || tasks.value.length === 1) {
-                        item.finishedCount++;
-                        if (item.finishedCount === item.count) {
-                            item.active = true;
-                        }
-                    }
-                    return item;
-                });
+    function finishedTaskHandler(id: number) {
+        tasks.value.map<task>((item) => {
+            if (item.id === id) {
+                item.active = !item.active;
+                if (item.active) {
+                    time.value = buttons.value[0].time;
+                    bgColor.value = buttons.value[0].color;
+                    buttons.value[1].active = false;
+                    buttons.value[2].active = false;
+                    buttons.value[0].active = true;
+                    second.value = 60;
+                    theSecond.value = "00";
+                    borderW.value = 0;
+                    clearInterval(updateMinute.value);
+                    clearInterval(updateSecond.value);
+                    isStart.value = false;
+                    playSong();
+                    isTrue.value = true;
+                }
             }
-            taskEndSound.play();
-            time.value = buttons.value[0].time;
-            buttons.value[0].active = true;
-            buttons.value[1].active = false;
-            buttons.value[2].active = false;
-            second.value = 60;
-            theSecond.value = "00";
-            clearInterval(updateMinute.value);
-            clearInterval(updateSecond.value);
-            isStart.value = false;
-            playSong();
-            isTrue.value = true;
-            borderW.value = 0;
-        }
+            return item;
+        });
     }
     const filterTasks = computed<task[]>(() => {
         return [...tasks.value].sort((a: task, b: task): number => {
@@ -283,6 +368,7 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
             clearInterval(updateMinute.value);
             clearInterval(updateSecond.value);
             isStart.value = false;
+            borderW.value = 0;
             playSong();
             isTrue.value = true;
             tasks.value.map<task>((item) => {
@@ -294,7 +380,33 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
             });
         }
     }
-    function showComputed() {
+    function finishedTasks(): void {
+        if (time.value === 0 && second.value === 0) {
+            if (buttons.value[0].active) {
+                finishedCount.value++;
+                tasks.value.map<task>((item) => {
+                    if (item.completed || tasks.value.length === 1) {
+                        item.finishedCount++;
+                        if (item.finishedCount === item.count) {
+                            item.active = true;
+                        }
+                    }
+                    return item;
+                });
+            }
+            taskEndSound.play();
+            nextHandler();
+            if (isStartBreaks.value && buttons.value[1].active) {
+                playHandle();
+                pomoId.value = 0;
+            }
+            if (isStartPomodoros.value && buttons.value[0].active && tasks.value.length && pomos.value) {
+                playHandle();
+                pomoId.value = 1;
+            }
+        }
+    }
+    function showComputed(): void {
         if ((tasks.value.every((item: task) => item.active) && tasks.value.length)) {
             showAllTasks.value = true;
         }
@@ -313,13 +425,13 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         clearInterval(updateSecond.value);
         theSecond.value = "00";
         second.value = 60;
-        isStart.value = false;
         playSong();
         isTrue.value = true;
         time.value = buttons.value[0].time;
         buttons.value[0].active = true;
         buttons.value[1].active = false;
         buttons.value[2].active = false;
+        finishedCount.value = 1;
     }
     watch(theSecond, () => {
         finishedTasks();
@@ -327,6 +439,60 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     watch(tasks.value, () => {
         showComputed();
     });
+    /* settings */
+    const pomodoroVal = ref<number>(buttons.value[0].time);
+    const shortVal = ref<number>(buttons.value[1].time);
+    const longVal = ref<number>(buttons.value[2].time);
+    function saveSettingHandler(): void {
+        if (!(pomodoroVal.value === 0) && pomodoroVal.value) {
+            buttons.value[0].time = pomodoroVal.value;
+        }
+        else {
+            pomodoroVal.value = buttons.value[0].time;
+        }
+        if (!(shortVal.value === 0) && shortVal.value) {
+            buttons.value[1].time = shortVal.value;
+            time.value = shortVal.value;
+        }
+        else {
+            shortVal.value = buttons.value[1].time;
+        }
+        if (!(longVal.value === 0) && longVal.value) {
+            buttons.value[2].time = longVal.value;
+            time.value = longVal.value;
+        }
+        else {
+            longVal.value = buttons.value[2].time;
+        }
+        if (buttons.value[0].active) {
+            time.value = buttons.value[0].time;
+            bgColor.value = buttons.value[0].color;
+        }
+        else if (buttons.value[1].active) {
+            time.value = buttons.value[1].time;
+            bgColor.value = buttons.value[1].color;
+        }
+        else {
+            time.value = buttons.value[2].time;
+            bgColor.value = buttons.value[2].color;
+        }
+
+        taskEndSound.volume = alarmSound.value / 100;
+        Audio.volume = tickingSound.value / 100;
+
+        isAddTask.value = true;
+        isStart.value = false;
+        borderW.value = 0;
+        Audio.pause();
+        clearInterval(updateMinute.value);
+        clearInterval(updateSecond.value);
+        theSecond.value = "00";
+        second.value = 60;
+        isStart.value = false;
+        playSong();
+        isTrue.value = true;
+        isSetting.value = false;
+    }
     return {
         toggleHandler,
         isShow,
@@ -359,6 +525,32 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         borderW,
         clearAllTasks,
         open,
+        isAlarm,
+        isColor,
+        ColorArrs,
+        colorOne,
+        colorTwo,
+        colorThree,
+        countColor,
+        isSetting,
+        isTodoist,
+        isWebhook,
+        finishedTaskHandler,
+        pomodoroVal,
+        shortVal,
+        longVal,
+        saveSettingHandler,
+        isStartBreaks,
+        isStartPomodoros,
+        alarmSound,
+        tickingSound,
+        song_countOne,
+        song_countTwo,
+        loadSong,
+        tickingSongArr,
+        alarmSongArr,
+        Audio,
+        taskEndSound,
     };
 });
 

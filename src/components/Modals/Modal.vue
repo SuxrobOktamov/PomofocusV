@@ -1,7 +1,7 @@
 <!-- eslint-disable no-alert -->
 <script setup lang="ts">
     import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
-    import type { plan } from "@/types/type";
+    import type { plan } from "@/types";
     const PomofocusStore = usePomofocusStore();
     const planArrs = ref<plan[]>([
         { id: 1, type: "MONTHLY", price: 1.99, name: "/ month", active: true },
@@ -24,7 +24,7 @@
 
 <template>
     <TransitionRoot as="template" :show="PomofocusStore.open">
-        <Dialog as="div" class="relative z-10" @close="PomofocusStore.open = false">
+        <Dialog as="div" class="relative z-20" @close.self="PomofocusStore.open = false">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
             </TransitionChild>

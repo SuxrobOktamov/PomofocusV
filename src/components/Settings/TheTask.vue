@@ -16,13 +16,17 @@
             <div i-carbon-task-complete class="text-[16px] font-bold" /> Task
         </div>
         <div class="flex items-center justify-between mt-4">
-            <span class="flex items-center gap-2">Auto Start Breaks <div i-carbon-information-filled class="text-[#bdbdbd]" /></span>
+            <span class="flex items-center gap-2">
+                Auto Check Tasks
+            </span>
             <div :style="{ backgroundColor: `${isActiveOne ? '#84c733cc' : '#ccc'}` }" class="cursor-pointer w-[60px] h-[30px] p-[2px] relative rounded-full bg-[#ccc]" @click="toggleHandler(1)">
                 <div :style="{ transform: `${isActiveOne ? 'translateX(115%)' : 'translateX(0%)'}` }" class="w-[26px] h-[26px] rounded-full bg-white toggle" />
             </div>
         </div>
         <div class="flex items-center justify-between mt-4 border-b border-b-2px pb-10">
-            <span class="flex items-center gap-2">Auto Start Pomodoros <div i-carbon-information-filled class="text-[#bdbdbd]" /></span>
+            <span class="flex items-center gap-2">
+                Auto Switch Tasks
+            </span>
             <div :style="{ backgroundColor: `${isActiveTwo ? '#84c733cc' : '#ccc'}` }" class="cursor-pointer w-[60px] h-[30px] p-[2px] relative rounded-full bg-[#ccc]" @click="toggleHandler(2)">
                 <div :style="{ transform: `${isActiveTwo ? 'translateX(115%)' : 'translateX(0%)'}` }" class="w-[26px] h-[26px] rounded-full bg-white toggle" />
             </div>

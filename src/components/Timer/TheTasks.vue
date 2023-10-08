@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-    import type { task } from "../../types/type";
+    import type { task } from "@/types";
     const PomofocusStore = usePomofocusStore();
     function EditHandler(id: number): void {
         PomofocusStore.isAddTask = true;
@@ -21,14 +21,17 @@
             return item;
         });
     }
-    function finishedTaskHandler(id: number) {
-        PomofocusStore.tasks.map<task>((item) => {
-            if (item.id === id) {
-                item.active = !item.active;
-            }
-            return item;
-        });
-    }
+    // function finishedTaskHandler(id: number) {
+    //     PomofocusStore.tasks.map<task>((item) => {
+    //         if (item.id === id) {
+    //             item.active = !item.active;
+    //             if (PomofocusStore.tasks.every((item) => item.active)) {
+
+    //             }
+    //         }
+    //         return item;
+    //     });
+    // }
 </script>
 
 <template>
@@ -36,7 +39,7 @@
         <div v-if="tasks.isEdit" class="relative overflow-hidden p-4 flex flex-wrap items-center justify-between bg-[#fff] rounded-[6px] shadow-md">
             <div v-if="tasks.completed || PomofocusStore.tasks.length === 1" class="absolute left-0 top-0 h-full w-[6px] bg-[#222]" />
             <div class="flex items-center gap-2">
-                <div i-carbon-checkmark-filled class="text-[24px] z-[999] checked" :style="{ color: `${tasks.active ? '#ba4949' : '#dfdfdf'}` }" @click.self="finishedTaskHandler(tasks.id)" />
+                <div i-carbon-checkmark-filled class="text-[24px] z-[999] checked" :style="{ color: `${tasks.active ? '#ba4949' : '#dfdfdf'}` }" @click.self="PomofocusStore.finishedTaskHandler(tasks.id)" />
                 <span class="font-bold max-w-[300px] text-ellipsis block whitespace-nowrap  overflow-hidden" :style="{ textDecoration: `${tasks.active ? 'line-through' : 'none'}`, opacity: `${tasks.active ? '0.4' : '1'}` }">{{ tasks.work }}</span>
             </div>
             <div class="flex items-center gap-3">

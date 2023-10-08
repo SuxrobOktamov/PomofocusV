@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import type { task } from "../../types/type";
+    import type { task } from "@/types";
 
     defineProps({ tasks: { required: false, type: Number } });
     const PomofocusStore = usePomofocusStore();
