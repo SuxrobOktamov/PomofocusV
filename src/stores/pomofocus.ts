@@ -75,9 +75,9 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     });
     const buttons = computed<btn[]>(() => {
         return [
-            { name: "Pomodoro", id: 1, active: true, time: 1, color: colorOne.value, spendTime: "Time to focus!" },
+            { name: "Pomodoro", id: 1, active: true, time: 25, color: colorOne.value, spendTime: "Time to focus!" },
             { name: "Short Break", id: 2, active: false, time: 5, color: colorTwo.value, spendTime: "Time for a break!" },
-            { name: "Long Break", id: 3, active: false, time: 1, color: colorThree.value, spendTime: "Time for a break!" },
+            { name: "Long Break", id: 3, active: false, time: 15, color: colorThree.value, spendTime: "Time for a break!" },
         ];
     });
     const tickingSongArr = ref<song[]>([
@@ -133,6 +133,8 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
     const isStartPomodoros = ref<boolean>(false);
     const alarmSound = ref<number>(100);
     const tickingSound = ref<number>(100);
+    const isDark = ref<boolean>(false);
+
     function toggleHandler(event: any, item?: show): void {
         if (item === "show") {
             event.target.classList.add("actives");
@@ -163,6 +165,9 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         isAddTask.value = true;
         if (isStart.value) {
             timeStart();
+            if (isDark.value) {
+                bgColor.value = "black";
+            }
         }
         else {
             clearInterval(updateMinute.value);
@@ -551,6 +556,7 @@ export const usePomofocusStore = defineStore("pomofocus", () => {
         alarmSongArr,
         Audio,
         taskEndSound,
+        isDark,
     };
 });
 

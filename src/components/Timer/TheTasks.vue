@@ -21,17 +21,6 @@
             return item;
         });
     }
-    // function finishedTaskHandler(id: number) {
-    //     PomofocusStore.tasks.map<task>((item) => {
-    //         if (item.id === id) {
-    //             item.active = !item.active;
-    //             if (PomofocusStore.tasks.every((item) => item.active)) {
-
-    //             }
-    //         }
-    //         return item;
-    //     });
-    // }
 </script>
 
 <template>

@@ -2,9 +2,8 @@
 <script setup lang="ts">
     const PomofocusStore = usePomofocusStore();
     const isActiveOne = ref<boolean>(true);
-    function toggleHandler(e: number) {
-        // eslint-disable-next-line max-statements-per-line
-        if (e === 1) { isActiveOne.value = !isActiveOne.value; }
+    function toggleHandler() {
+        PomofocusStore.isDark = !PomofocusStore.isDark;
     }
     function changeColors(id: number): void {
         PomofocusStore.countColor = id;
@@ -27,8 +26,8 @@
         </div>
         <div class="flex items-center justify-between mt-5">
             <span class="flex items-center gap-2">Dark Mode when running </span>
-            <div :style="{ backgroundColor: `${isActiveOne ? '#84c733cc' : '#ccc'}` }" class="cursor-pointer w-[60px] h-[30px] p-[2px] relative rounded-full bg-[#ccc]" @click="toggleHandler(1)">
-                <div :style="{ transform: `${isActiveOne ? 'translateX(115%)' : 'translateX(0%)'}` }" class="w-[26px] h-[26px] rounded-full bg-white toggle" />
+            <div :style="{ backgroundColor: `${PomofocusStore.isDark ? '#84c733cc' : '#ccc'}` }" class="cursor-pointer w-[60px] h-[30px] p-[2px] relative rounded-full bg-[#ccc]" @click="toggleHandler()">
+                <div :style="{ transform: `${PomofocusStore.isDark ? 'translateX(115%)' : 'translateX(0%)'}` }" class="w-[26px] h-[26px] rounded-full bg-white toggle" />
             </div>
         </div>
         <div class="flex flex-wrap items-center justify-between mt-5 gap-y-2 border-b border-b-2px pb-10">
